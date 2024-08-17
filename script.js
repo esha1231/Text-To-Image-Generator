@@ -1,16 +1,23 @@
-// script.js
-
+const token="YOUR_API_KEY"
 const button = document.getElementById("btn");
 const imageContainer = document.getElementById("imageContainer");
 
 async function query(data, seed) {
-  const response = await fetch("/api/generate", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ data, seed }),
-  });
+  const response = await fetch(
+    "https://api-inference.huggingface.co/models/ZB-Tech/Text-to-Image",
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify({
+        inputs: data,
+        parameters: { seed: seed },
+      }),
+    }
+
+  );
   const result = await response.blob();
   return result;
 }
