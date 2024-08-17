@@ -1,6 +1,9 @@
 # Imagify - Text to Image Generator
 
-
+<p align="center">
+   <img src="https://github.com/user-attachments/assets/e3a6fcd9-82f6-4933-95c1-52f77434f74e" alt="Imagify Generated Images" width="600">
+  <img src="https://github.com/user-attachments/assets/a9610cac-718c-4cd8-b613-1c9a2c86df7d" alt="Imagify Screenshot" width="600">
+</p>
 
 Imagify is a sleek, futuristic web application that transforms text descriptions into stunning images using advanced AI technology powered by Hugging Face. This innovative tool leverages the ZB-Tech/Text-to-Image model from Hugging Face's model hub to bring your ideas to life. With its cyberpunk-inspired design and powerful functionality, Imagify offers a unique and engaging way to visualize your ideas.
 
