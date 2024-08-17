@@ -6,7 +6,10 @@ async function generateImages() {
   imageContainer.innerHTML = ""; // Clear previous images
   const prompt = input.value;
 
-  if (!prompt) return; // Exit if no prompt is provided
+  if (!prompt) {
+    console.warn('No prompt provided.'); // Log warning if no prompt
+    return; // Exit if no prompt is provided
+  }
 
   button.textContent = "Generating...";
   button.disabled = true;
@@ -51,6 +54,8 @@ async function generateImages() {
       wrapper.appendChild(img); // Append image to wrapper
       wrapper.appendChild(downloadBtn); // Append download button to wrapper
       imageContainer.appendChild(wrapper); // Append wrapper to image container
+
+      console.log('Image added to container:', img); // Log added image
     })
     .catch(error => {
       console.error('Error generating image:', error.message); // Log any errors
@@ -61,6 +66,7 @@ async function generateImages() {
 
   try {
     await Promise.all(imagePromises); // Wait for all images to be generated
+    console.log('All images generated successfully'); // Log success
   } catch (error) {
     console.error('Error in promises:', error.message); // Log any errors in promises
   } finally {
