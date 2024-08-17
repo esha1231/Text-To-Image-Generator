@@ -3,21 +3,17 @@ const input = document.getElementById("input");
 const imageContainer = document.getElementById("imageContainer");
 
 async function generateImages() {
-  imageContainer.innerHTML = ""; // Clear previous images
+  imageContainer.innerHTML = "";
   const prompt = input.value;
 
-  if (!prompt) {
-    console.warn('No prompt provided.'); // Log warning if no prompt
-    return; // Exit if no prompt is provided
-  }
+  if (!prompt) return;
 
   button.textContent = "Generating...";
   button.disabled = true;
 
-  const numImages = 3; // Number of images to generate
+  const numImages = 3; // Reduced number of images for performance
   const imagePromises = [];
 
-  // Loop to generate multiple images
   for (let i = 0; i < numImages; i++) {
     const promise = fetch('/api/generate', {
       method: 'POST',
@@ -26,20 +22,14 @@ async function generateImages() {
       },
       body: JSON.stringify({ prompt, seed: Math.floor(Math.random() * 1000000) }),
     })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.blob(); // Convert response to blob
-    })
+    .then(response => response.blob())
     .then(blob => {
-      const objectUrl = URL.createObjectURL(blob); // Create a URL for the blob
-      console.log(`Generated image URL: ${objectUrl}`); // Log the URL for debugging
+      const objectUrl = URL.createObjectURL(blob);
       const wrapper = document.createElement("div");
       wrapper.className = "imageWrapper";
 
       const img = document.createElement("img");
-      img.src = objectUrl; // Set the image source to the blob URL
+      img.src = objectUrl;
       img.alt = `Generated image ${i + 1}`;
       img.onload = () => URL.revokeObjectURL(objectUrl); // Clean up object URL after image loads
 
@@ -47,47 +37,39 @@ async function generateImages() {
       downloadBtn.className = "downloadBtn";
       downloadBtn.textContent = "Download";
       downloadBtn.addEventListener("click", (e) => {
-        e.stopPropagation(); // Prevent event bubbling
-        downloadImage(blob, `generated_image_${i + 1}.png`); // Trigger download
+        e.stopPropagation();
+        downloadImage(blob, `generated_image_${i + 1}.png`);
       });
 
-      wrapper.appendChild(img); // Append image to wrapper
-      wrapper.appendChild(downloadBtn); // Append download button to wrapper
-      imageContainer.appendChild(wrapper); // Append wrapper to image container
-
-      console.log('Image added to container:', img); // Log added image
-    })
-    .catch(error => {
-      console.error('Error generating image:', error.message); // Log any errors
+      wrapper.appendChild(img);
+      wrapper.appendChild(downloadBtn);
+      imageContainer.appendChild(wrapper);
     });
 
-    imagePromises.push(promise); // Store the promise for later use
+    imagePromises.push(promise);
   }
 
   try {
-    await Promise.all(imagePromises); // Wait for all images to be generated
-    console.log('All images generated successfully'); // Log success
+    await Promise.all(imagePromises);
   } catch (error) {
-    console.error('Error in promises:', error.message); // Log any errors in promises
+    console.error(error.message);
   } finally {
-    button.textContent = "Generate"; // Reset button text
-    button.disabled = false; // Enable button
-    input.value = ""; // Clear input field
+    button.textContent = "Generate";
+    button.disabled = false;
+    input.value = "";
   }
 }
 
-// Function to download the generated image
 function downloadImage(blob, fileName) {
   const link = document.createElement("a");
-  link.href = URL.createObjectURL(blob); // Create a URL for the blob
-  link.download = fileName; // Set the download file name
-  document.body.appendChild(link); // Append link to the body (required for Firefox)
-  link.click(); // Trigger the download
-  document.body.removeChild(link); // Remove link from the body
+  link.href = URL.createObjectURL(blob);
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 }
 
-// Event listener for the generate button
 button.addEventListener("click", (event) => {
-  event.preventDefault(); // Prevent default action
-  generateImages(); // Call the function to generate images
+  event.preventDefault(); // Prevent form submission or default action
+  generateImages();
 });
