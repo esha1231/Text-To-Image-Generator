@@ -10,6 +10,7 @@ export default async function handler(req, res) {
     const imagePromises = [];
   
     try {
+      // Use dynamic import for ES module
       const fetch = (await import('node-fetch')).default;
   
       for (let i = 0; i < numImages; i++) {
