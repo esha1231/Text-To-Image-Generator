@@ -1,5 +1,3 @@
-// api/generate.js (Vercel Serverless Function)
-
 export default async function handler(req, res) {
     const { data, seed } = req.body;
     const token = process.env.API_TOKEN;
