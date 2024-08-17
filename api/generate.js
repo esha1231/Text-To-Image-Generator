@@ -3,6 +3,7 @@ export default async function handler(req, res) {
   
     console.log('Request Body:', req.body);
   
+    // Check if prompt exists in request body
     if (!req.body.prompt) {
       return res.status(400).json({ error: 'Prompt is required' });
     }
@@ -30,7 +31,7 @@ export default async function handler(req, res) {
         });
   
         if (!response.ok) {
-          throw new Error(`Failed to fetch image ${i + 1}`);
+          throw new Error(`Failed to fetch image ${i + 1}: ${response.statusText}`);
         }
   
         const blob = await response.blob();
