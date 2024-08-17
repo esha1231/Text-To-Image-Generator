@@ -2,6 +2,7 @@
 
 const button = document.getElementById("btn");
 const imageContainer = document.getElementById("imageContainer");
+const input = document.getElementById("input"); // Added this line to define input
 
 async function query(data, seed) {
   const response = await fetch("/api/generate", {
