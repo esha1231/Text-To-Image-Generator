@@ -1,4 +1,4 @@
-import { TOKEN } from "./config.js";
+import { TOKEN } from "./env";
 const button = document.getElementById("btn");
 const imageContainer = document.getElementById("imageContainer");
 
