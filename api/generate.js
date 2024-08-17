@@ -1,6 +1,8 @@
 export default async function handler(req, res) {
     const { API_TOKEN } = process.env;
   
+    console.log('Request Body:', req.body);
+  
     if (!req.body.prompt) {
       return res.status(400).json({ error: 'Prompt is required' });
     }
@@ -10,7 +12,6 @@ export default async function handler(req, res) {
     const imagePromises = [];
   
     try {
-      // Use dynamic import for ES module
       const fetch = (await import('node-fetch')).default;
   
       for (let i = 0; i < numImages; i++) {
